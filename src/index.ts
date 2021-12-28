@@ -475,9 +475,13 @@ function FlatpickrInstance(
         self.currentMonth = jumpTo.getMonth();
       }
     } catch (e) {
-      /* istanbul ignore next */
-      e.message = "Invalid date supplied: " + jumpTo;
-      self.config.errorHandler(e);
+      if (e instanceof Error) {
+        /* istanbul ignore next */
+        e.message = "Invalid date supplied: " + jumpTo;
+        self.config.errorHandler(e);
+      } else {
+        throw e;
+      }
     }
 
     if (triggerChange && self.currentYear !== oldYear) {
